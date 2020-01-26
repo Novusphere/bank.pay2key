@@ -1,0 +1,7 @@
+*.wasm
+*.wast
+.vscode
+.DS_Store
+js_test/node_modules/**
+deploy.json
+build/*

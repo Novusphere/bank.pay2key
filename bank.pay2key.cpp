@@ -1,7 +1,8 @@
 #include "bank.pay2key.hpp"
 #include "base58.c"
 
-[[eosio::action]] void pay2key::create(name token_contract, symbol ticker) {
+[[eosio::action]] void pay2key::create(name token_contract, symbol ticker)
+{
     require_auth(_self);
 
     check(ticker.is_valid(), "invalid symbol name");
@@ -80,7 +81,9 @@ void pay2key::issue(name from, name to, asset quantity, string memo)
     asset fee,
     uint64_t nonce,
     string memo,
-    signature sig) {
+    signature sig,
+    string metadata)
+{
     // get currency information
     stats statstable(_self, _self.value);
     const auto st = statstable.get(chain_id, "no token found for chain_id. chain_id must be created first");
@@ -94,7 +97,7 @@ void pay2key::issue(name from, name to, asset quantity, string memo)
     auto pk_index = accounts_table.get_index<name("bypk")>();
 
     auto account_it = pk_index.find(public_key_to_fixed_bytes(from));
-    uint64_t last_nonce = (account_it != pk_index.end()) ?  account_it->last_nonce : 0;
+    uint64_t last_nonce = (account_it != pk_index.end()) ? account_it->last_nonce : 0;
 
     // validate inputs
     check(from != to, "cannot transfer to self");

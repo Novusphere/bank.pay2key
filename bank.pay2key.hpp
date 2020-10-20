@@ -13,7 +13,7 @@ using namespace std;
 const std::string WITHDRAW_ADDRESS = "EOS1111111111111111111111111111111114T1Anm";
 uint8_t WITHDRAW_KEY_BYTES[37] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 134, 231, 181, 34};
 
-class[[eosio::contract("bank.pay2key")]] pay2key : public contract
+class [[eosio::contract("bank.pay2key")]] pay2key : public contract
 {
 
 public:
@@ -31,7 +31,8 @@ public:
       asset fee,
       uint64_t nonce,
       string memo,
-      signature sig);
+      signature sig,
+      string metadata);
 
   // Public but not a directly callable action
   // Called indirectly by sending EOS to this contract
@@ -76,7 +77,7 @@ public:
 private:
   static const fixed_bytes<32> public_key_to_fixed_bytes(const public_key publickey)
   {
-    return sha256((const char*)publickey.data.begin(), 33);
+    return sha256((const char *)publickey.data.begin(), 33);
   }
 
   void sub_balance(uint64_t chain_id, public_key sender, asset value);
